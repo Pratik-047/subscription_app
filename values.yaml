@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: subscription_app
+  tag: "1.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 8080
+  nodePort: 30080   # you can change if needed
+
+ingress:
+  enabled: false
