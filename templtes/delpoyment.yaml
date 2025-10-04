@@ -1,18 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: {{ include "subscription-app.fullname" . }}-deployment
-  labels:
-    {{- include "subscription-app.labels" . | nindent 4 }}
+  name: {{ include "myapp.fullname" . }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
+      app: {{ include "myapp.name" . }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app: {{ include "myapp.name" . }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -20,3 +18,14 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.targetPort }}
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "myapp.fullname" . }}-secret
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "myapp.fullname" . }}-secret
+                  key: DB_PASSWORD

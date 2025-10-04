@@ -1,17 +1,17 @@
-replicaCount: 1
-
+# Docker image config
 image:
-  repository: pratik047/subscription_app
-  tag: "1.0"
+  repository: <your-dockerhub-username>/myapp
+  tag: latest
   pullPolicy: IfNotPresent
 
+# Secret values (Base64 encoding handled by Helm)
+secrets:
+  DB_USERNAME: "admin"
+  DB_PASSWORD: "s3cr3tPass"
+
+# Service settings
 service:
   type: NodePort
-  port: 8080
+  port: 80
   targetPort: 8080
-  nodePort: 30080   # you can change if needed
-
-ingress:
-  enabled: false
-
-  # hello git 
+  nodePort: 30080
